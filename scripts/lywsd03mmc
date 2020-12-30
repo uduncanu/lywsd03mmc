@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import argparse
+from datetime import datetime
+import lywsd03mmc
+
+parser = argparse.ArgumentParser()
+parser.add_argument('mac', help='MAC address of LYWSD02 device', nargs='+')
+args = parser.parse_args()
+
+for mac in args.mac:
+	try:
+		client = lywsd03mmc.Lywsd03mmcClient(mac)
+		print('Fetching data from {}'.format(mac))
+		data = client.data
+		print('Temperature: {}°C'.format(data.temperature))
+		print('Humidity: {}%'.format(data.humidity))
+		print('Battery: {}%'.format(client.battery))
+		print()
+	except Exception as e:
+		print(e)

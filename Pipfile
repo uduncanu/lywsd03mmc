@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+lywsd02 = {version = "=0.0.9", sys_platform = "== 'linux'"}
+
+[dev-packages]
+pytest  = "*"
+
+[requires]
+python_version = "3.7"
