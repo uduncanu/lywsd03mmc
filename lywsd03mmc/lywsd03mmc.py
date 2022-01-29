@@ -4,6 +4,8 @@ import collections
 from datetime import datetime, timedelta
 
 UUID_HISTORY = 'EBE0CCBC-7A0A-4B0C-8A1A-6FF2997DA3A6'  # Last idx 152          READ NOTIFY
+UUID_FIRMWARE = '00002a26-0000-1000-8000-00805f9b34fb'   # handle: 0x0012 firmware revision
+UUID_HARDWARE = '00002a27-0000-1000-8000-00805f9b34fb'   # handle: 0x0014 hardware revision
 
 # Create a structure to store the data in, which includes battery data 
 class SensorDataBattery(collections.namedtuple('SensorDataBase', ['temperature', 'humidity', 'battery'])):
@@ -110,3 +112,19 @@ class Lywsd03mmcClient(Lywsd02Client):
     @tz_offset.setter
     def tz_offset(self, tz_offset: int):
         return
+
+    @property
+    def firmware(self):
+        with self.connect():
+            ch = self._peripheral.getCharacteristics(uuid=UUID_FIRMWARE)[0]
+            value = ch.read()
+            firmware = ''.join(map(chr, value))
+        return firmware
+
+    @property
+    def hardware(self):
+        with self.connect():
+            ch = self._peripheral.getCharacteristics(uuid=UUID_HARDWARE)[0]
+            value = ch.read()
+            firmware = ''.join(map(chr, value))
+        return firmware
