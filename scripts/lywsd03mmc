@@ -5,8 +5,18 @@ from datetime import datetime
 import lywsd03mmc
 
 parser = argparse.ArgumentParser()
-parser.add_argument('mac', help='MAC address of LYWSD02 device', nargs='+')
+parser.add_argument('-m', '--mac', help='MAC address of LYWSD02 device', nargs='+')
+parser.add_argument('-s', '--scan',
+                    help='Scan for lywsd03mmc devices with custom firmware',
+                    action='store_true')
 args = parser.parse_args()
+
+if args.scan:
+    atc = lywsd03mmc.AtcMiThermometerClient()
+    atc.get_datas()
+    for device in atc.thermometers:
+        print('----\n', device)
+    exit()
 
 for mac in args.mac:
     try:
