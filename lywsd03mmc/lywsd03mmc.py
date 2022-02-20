@@ -173,7 +173,7 @@ class AtcMiThermometerDevice():
         self._volts = int('0x' + ''.join(datas[12:14]), base=16)/1000
         self._skip = False
         if datas[14] == '':
-            print('skip')
+            print('skip', self._mac)
             self._skip = True
         self._rssi = None
 
@@ -226,13 +226,14 @@ class AtcMiThermometerDevice():
 
 class AtcMiThermometerClient():
 
-    def __init__(self, scan_for=15.0, retry=3):
+    def __init__(self, scan_for=15.0, retry=3, debug=False):
         self._scan_for = scan_for
         self._retry = retry
         self._devices = []
         self._thermometers = []
+        self._debug = debug
 
-    def get_datas(self):
+    def _get_datas(self):
         devices = []
         scanner = Scanner().withDelegate(ScanDelegate())
         try:
@@ -243,6 +244,12 @@ class AtcMiThermometerClient():
             print('Proceed...')
             # exit()
         self._devices = devices
+
+    def get_datas(self):
+        trycount = 0
+        while (len(self._devices) == 0) and (trycount < self._retry):
+            trycount += 1
+            self._get_datas()
         self._process_datas()
 
     def _process_datas(self):
@@ -254,7 +261,8 @@ class AtcMiThermometerClient():
             local_name = ''
             value = ''
             for (adtype, desc, val) in dev.getScanData():
-                print("  %s = %s" % (desc, val))
+                if self._debug:
+                    print("  %s = %s" % (desc, val))
                 if desc == "16b Service Data":
                     value = val
                 elif desc == "Complete Local Name":
@@ -267,7 +275,8 @@ class AtcMiThermometerClient():
 
             thermometer = AtcMiThermometerDevice(value)
             thermometer.rssi = dev.rssi
-            print(thermometer)
+            if self._debug:
+                print(thermometer)
             self._thermometers.append(thermometer)
 
     @property
@@ -294,7 +303,7 @@ class AtcMiThermometerClient():
 
 
 def main():
-    atc = AtcMiThermometerClient()
+    atc = AtcMiThermometerClient(debug=True)
     atc.get_datas()
 
 
