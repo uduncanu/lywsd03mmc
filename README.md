@@ -37,7 +37,7 @@ Two helper commands are distributed here:
 This shows the current temperature, humidity and battery level of the device.
 
 Example usage: 
-`lywsd03mmc A4:C1:38:12:34:56`
+`lywsd03mmc -m A4:C1:38:12:34:56`
 
 ### `lywsd03mmc2csv` - Export history
 
@@ -92,6 +92,60 @@ client.enable_history_progress = True
 history = client.history_data
 ```
 
+# ATC_MiThermometer
+
+If you use Custom firmware for the Xiaomi Thermometer LYWSD03MMC and Telink Flasher via USB to Serial converter you can get device informations without connecting.
+[ATC_MiThermometer](https://github.com/atc1441/ATC_MiThermometer)
+
+After flashing, ```Lywsd03mmcClient``` can't be used. ```AtcMiThermometerClient``` must be used as client.
+
+### Retrieving information without connecting
+
+Here's an example of getting the basic information out of the device:
+
+```
+from lywsd03mmc import AtcMiThermometerClient
+client = AtcMiThermometerClient()
+
+client.get_datas()
+
+for thermometer in client.thermometers:
+    print('----\n', thermometer) # print all data 
+```
+
+Display with on retry (3 retries by default):
+
+```
+Discovered device a4:c1:38:xx:xx:xx
+Discovered device a4:c1:38:yy:yy:yy
+Device disconnected
+Proceed...
+Discovered device a4:c1:38:xx:xx:xx
+Discovered device a4:c1:38:yy:yy:yy
+Received new data from a4:c1:38:xx:xx:xx
+----
+ mac:   A4:C1:38:xx:xx:xx - ATC_xxxxxx
+temp:   22.8 °C
+hum:    37 %
+batt:   86 %
+volts:  2.98 V
+rssi:   -54 dB
+skip:   False
+----
+ mac:   A4:C1:38:yy:yy:yy - ATC_yyyyyy
+temp:   21.7 °C
+hum:    42 %
+batt:   88 %
+volts:  2.996 V
+rssi:   -71 dB
+skip:   False
+```
+
+### Retrieving information without connecting - command line
+
+```
+lywsd03mmc -s
+```
 
 ## Troubleshooting
 
