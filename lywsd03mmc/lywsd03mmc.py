@@ -176,12 +176,13 @@ class AtcMiThermometerDevice():
             print('skip', self._mac)
             self._skip = True
         self._rssi = None
+        self._local_name = None
 
     def __init__(self, data):
         self._process_sensor_data(data)
 
     def __str__(self):
-        result = '{}: \t{}'.format('mac', self._mac)
+        result = '{}: \t{} - {}'.format('mac', self._mac, self._local_name)
         result += '\n{}: \t{} °C'.format('temp', self._temp)
         result += '\n{}: \t{} %'.format('hum', self._hum)
         result += '\n{}: \t{} %'.format('batt', self._battery)
@@ -221,6 +222,15 @@ class AtcMiThermometerDevice():
     @rssi.setter
     def rssi(self, value):
         self._rssi = value
+        return
+
+    @property
+    def local_name(self):
+        return self._local_name
+
+    @local_name.setter
+    def local_name(self, value):
+        self._local_name = value
         return
 
 
@@ -275,6 +285,7 @@ class AtcMiThermometerClient():
 
             thermometer = AtcMiThermometerDevice(value)
             thermometer.rssi = dev.rssi
+            thermometer.local_name = local_name
             if self._debug:
                 print(thermometer)
             self._thermometers.append(thermometer)
