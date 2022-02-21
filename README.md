@@ -19,6 +19,14 @@ The LYWSD03MMC package can then be installed from [PyPi](https://pypi.org/projec
 pip3 install lywsd03mmc
 ```
 
+### Installation forked package
+
+```
+git clone https://github.com/afer92/lywsd03mmc.git
+cd lywsd03mmc
+pip3 install .
+```
+
 ## Finding the MAC address of the devices
 From the Xiaomi Home app:
 1. Go into the details of the device
