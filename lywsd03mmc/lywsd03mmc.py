@@ -284,6 +284,8 @@ class AtcMiThermometerClient():
             # print("  %s = %s" % (desc, value))
 
             thermometer = AtcMiThermometerDevice(value)
+            if dev.addr.upper() != thermometer.mac.upper():
+                continue
             thermometer.rssi = dev.rssi
             thermometer.local_name = local_name
             if self._debug:
