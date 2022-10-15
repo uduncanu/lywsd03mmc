@@ -279,7 +279,9 @@ class AtcMiThermometerClient():
                     local_name = val
 
             # print('{} : {}'.format(local_name, value))
-            if (local_name == '') or (value == ''):
+            if local_name == '':
+                local_name = "not available"
+            if value == '':
                 continue
             # print("  %s = %s" % (desc, value))
 
