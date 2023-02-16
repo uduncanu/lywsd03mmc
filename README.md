@@ -4,6 +4,14 @@ A Python library for working with Xiaomi Mijia LYWSD03MMC bluetooth temperature 
 
 Updating the firmware on the devices is *not* required.
 
+For battery savings or additional features the firmware can be upgraded to:
+[ATC1441 - ATC MiThermometer](https://github.com/atc1441/ATC_MiThermometer)
+or the fork
+[PVVX - ATC MiThermometer](https://github.com/pvvx/ATC_MiThermometer).
+For PVVX version please change the Bluetooth Advertising Format to "ATC1441".
+
+After flashing, ```Lywsd03mmcClient``` can't be used. ```AtcMiThermometerClient``` must be used as client.
+
 This package is built on top of the lywsd02 package, which may include additional useful information.
 
 ## Installation
@@ -22,7 +30,7 @@ pip3 install lywsd03mmc
 ### Installation forked package
 
 ```
-git clone https://github.com/afer92/lywsd03mmc.git
+git clone https://github.com/0xD0M1M0/lywsd03mmc.git
 cd lywsd03mmc
 pip3 install .
 ```
@@ -156,6 +164,18 @@ lywsd03mmc -s
 ```
 
 ## Troubleshooting
+
+AtcMiThermometerClient() standard parameters:
+```
+scan_for=15.0
+retry=3
+debug=False
+```
+
+Example
+```
+AtcMiThermometerClient(scan_for=30.0, debug=True)
+```
 
 ### Failed to connect to peripheral
 
