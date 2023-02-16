@@ -30,7 +30,7 @@ pip3 install lywsd03mmc
 ### Installation forked package
 
 ```
-git clone https://github.com/0xD0M1M0/lywsd03mmc.git
+git clone https://github.com/afer92/lywsd03mmc.git
 cd lywsd03mmc
 pip3 install .
 ```
