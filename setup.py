@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="lywsd03mmc",
-    version="0.1.0",
+    version="0.2.1",
     author="Duncan Barclay",
     author_email="duncan@duncanbarclay.uk",
     description="Xiaomi Mijia LYWSD03MMC sensor library",

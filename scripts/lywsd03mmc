@@ -5,17 +5,31 @@ from datetime import datetime
 import lywsd03mmc
 
 parser = argparse.ArgumentParser()
-parser.add_argument('mac', help='MAC address of LYWSD02 device', nargs='+')
+parser.add_argument('-m', '--mac', help='MAC address of LYWSD02 device', nargs='+')
+parser.add_argument('-s', '--scan',
+                    help='Scan for lywsd03mmc devices with custom firmware',
+                    action='store_true')
 args = parser.parse_args()
 
+if args.scan:
+    atc = lywsd03mmc.AtcMiThermometerClient()
+    atc.get_datas()
+    for device in atc.thermometers:
+        print('----\n', device)
+    exit()
+
 for mac in args.mac:
-	try:
-		client = lywsd03mmc.Lywsd03mmcClient(mac)
-		print('Fetching data from {}'.format(mac))
-		data = client.data
-		print('Temperature: {}°C'.format(data.temperature))
-		print('Humidity: {}%'.format(data.humidity))
-		print('Battery: {}%'.format(client.battery))
-		print()
-	except Exception as e:
-		print(e)
+    try:
+        client = lywsd03mmc.Lywsd03mmcClient(mac)
+        print('Fetching data from {}'.format(mac))
+        firmware = client.firmware
+        hardware = client.hardware
+        data = client.data
+        print('Firmware: {}'.format(firmware))
+        print('Hardware: {}'.format(hardware))
+        print('Temperature: {}°C'.format(data.temperature))
+        print('Humidity: {}%'.format(data.humidity))
+        print('Battery: {}%'.format(client.battery))
+        print()
+    except Exception as e:
+        print(e)
